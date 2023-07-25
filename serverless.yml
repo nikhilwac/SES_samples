@@ -1,0 +1,94 @@
+service: mark-01
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "ses:*"
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource: "*"
+    - Effect: Allow
+      Action: s3:GetObject
+      Resource: "arn:aws:s3:::buck-face/*"
+            
+
+functions:
+  sendEmail:
+    handler: index.sendEmail
+    events:
+      - http:
+          path: send-email
+          method: post
+          cors: true
+  createTemplate:
+    handler: index.createTemplate
+    events:
+      - http:
+          path: create-template
+          method: post
+          cors: true
+  removeTemplate:
+    handler: index.removeTemplate
+    events:
+      - http:
+          path: remove-template
+          method: post
+          cors: true
+  addContactList:
+    handler: index.addContactList
+    events:
+      - http:
+          path: add-contactlist
+          method: post
+          cors: true
+  listContactLists:
+    handler: index.listContactLists
+    events:
+      - http:
+          path: list-contact-ists
+          method: get
+          cors: true
+  deleteContactList:
+    handler: index.deleteContactList
+    events:
+      - http:
+          path: delete-contact-list
+          method: delete
+          cors: true
+  createContact:
+    handler: index.createContact
+    events:
+      - http:
+          path: create-contact
+          method: post
+          cors: true
+  listContacts:
+    handler: index.listContacts
+    events:
+      - http:
+          path: list-contacts
+          method: get
+          cors: true
+  deleteContact:
+    handler: index.deleteContact
+    events:
+      - http:
+          path: delete-contact
+          method: delete
+          cors: true
+  getContact:
+    handler: index.getContact
+    events:
+      - http:
+          path: get-contact
+          method: get
+          cors: true
